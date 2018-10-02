@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+		<title>El último recurso &mdash; Articles by Adrián Silva</title>
+		<meta charset="utf-8" />
+		<link rel="profile" href="http://gmpg.org/xfn/11" />
+		<link rel="stylesheet" type="text/css" href="../theme/css/style.css" />
+		<link rel='stylesheet' id='oswald-css'  href='http://fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all' />
+		<style type="text/css">
+			body.custom-background { background-color: #f5f5f5; }
+		</style>
+		<link rel="alternate" type="application/atom+xml"
+			title="El último recurso — Flux Atom"
+			href="../" /> 
+		<!--[if lte IE 8]><script src="../theme/js/html5shiv.js"></script><![endif]-->
+</head>
+
+<body class="home blog custom-background " >
+	<div id="container">
+		<div id="header">
+				<h1 id="site-title"><a href="..">El último recurso</a></h1>
+		</div><!-- /#banner -->
+		
+		<div id="menu">
+			<div class="menu-navigation-container">
+				<ul id="menu-navigation" class="menu">
+						<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="../category/cajon-desastre.html">Cajón desastre</a></li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="../category/seguridad.html">Seguridad</a></li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="../category/sistemas.html">Sistemas</a></li>
+
+				</ul>
+			</div> <!--/#menu-navigation-container-->
+		</div><!-- /#menu -->
+		
+		<div class="page-title">
+	<h2>Posted by <span>Adrián Silva</span> &hellip;</h2>
+		</div>
+	
+		<div id="contents">
+<div class="post type-post status-publish format-standard hentry category-general" id="post">
+	<div class="entry-meta">
+		<div class="date"><a href="../configuracion-de-swap.html">sáb 22 septiembre 2018</a></div>
+		<span class="byline">By <a href="../author/adrian-silva.html">Adrián Silva</a></span>
+			<span class="cat-links"><a href="../category/sistemas.html" title="View all posts in Sistemas" rel="category tag">Sistemas</a></span>
+	</div> <!-- /#entry-meta -->
+	<div class="main">
+		<h2 class="entry-title">
+			<a href="../configuracion-de-swap.html" title="Permalink to Configuración de SWAP" rel="bookmark">Configuración de SWAP</a>
+		</h2>
+		<div class="entry-content">
+			<p><img alt="logo" src="imagenes/1w.png"></p>
+<p>En informática, el <a href="https://es.wikipedia.org/wiki/Espacio_de_intercambio">espacio de intercambio </a>es una zona del disco que se usa para guardar las imágenes de los procesos que no han de mantenerse en memoria física. A este espacio se le suele llamar swap.</p>
+<p>Posiblemente en ocasiones nos interese cambiar la configuración de la swap, por ejemplo por motivos de rendimiento en el servidor o porque le hayamos puesto un tamaño erróneo durante la instalación del sistema operativo. Por estos u otros casos les traigo como crear y configurar una partición swap desde la terminal.</p>
+<h1>Pasos a seguir</h1>
+<ol>
+<li>
+<p>Vemos cuales son los discos que se encuentran en nuestro sistema con el comando lsblk, luego creamos nuestra swap con:</p>
+<p><em><a href="https://blog.desdelinux.net/uso-del-comando-dd/">dd if=/dev/zero of=/swapfile bs=1024 count=1024k</a></em></p>
+</li>
+<li>
+<p>Utilizamos el comando <strong>mkswap /swapfile</strong>, luego activamos la swap con el comando: <strong>swapon /swapfile</strong> y comprobamos que la partición swap ha sido creada y activada con el comando <strong>swapon -s</strong>.</p>
+<p><img alt="2" src="imagenes/2w.png"></p>
+<p>Para no perder la swap tras reiniciar, debemos editar el archivo fstab agregándole la siguiente linea:</p>
+<p>/<em>swapfile none swap sw 0 0</em></p>
+<p><img alt="3" src="imagenes/3w.png"></p>
+</li>
+<li>
+<p>Definimos la propiedad swappiness con el valor 0 utilizando el comando:</p>
+<p><em>echo 0 &gt; /proc/sys/vm/swappiness</em></p>
+</li>
+<li>
+<p>Asignamos los permisos correctos al archivo de swap para que no pueda ser leído o modificado por los usuarios, con los comandos:</p>
+<p><em>chown root:root /swapfile
+chmod 0600 /swapfile</em></p>
+<p><img alt="4" src="imagenes/4w.png"></p>
+</li>
+<li>
+<p>Utilizamos el comando free para saber el uso de nuestra memoria y vemos que la swap solo esta utilizando 224 Kilobytes.</p>
+<p><img alt="5" src="imagenes/5w.png"></p>
+</li>
+<li>
+<p>Ahora vamos a utilizar el comando stress para estresar al sistema y ver como este utiliza la swap, para ello escribimos:</p>
+<p><em>stress –cpu 3 –io 3 –vm 3 –timeout 10s –verbose</em></p>
+<p><img alt="6" src="imagenes/6w.png"></p>
+</li>
+<li>
+<p>Por ultimo comprobamos como se ha disparado el uso de la swap tras cargar el sistema, como ha pasado de 224 Kilobytes a 282080 Kilobytes.</p>
+<p><img alt="7" src="imagenes/7w.png"></p>
+</li>
+</ol>
+		</div> <!--/#entry-content-->
+    		<span class="tag-links"><strong>Tagged</strong>
+ <a href="../tag/linux.html" rel="tag">Linux</a>    		</span>
+	</div> <!--/#main-->
+</div>  <!--/#post--><div class="post type-post status-publish format-standard hentry category-general" id="post">
+	<div class="entry-meta">
+		<div class="date"><a href="../prey-software-antirobo.html">mar 18 septiembre 2018</a></div>
+		<span class="byline">By <a href="../author/adrian-silva.html">Adrián Silva</a></span>
+			<span class="cat-links"><a href="../category/cajon-desastre.html" title="View all posts in Cajón desastre" rel="category tag">Cajón desastre</a></span>
+	</div> <!-- /#entry-meta -->
+	<div class="main">
+		<h2 class="entry-title">
+			<a href="../prey-software-antirobo.html" title="Permalink to Prey – Software antirobo" rel="bookmark">Prey – Software antirobo</a>
+		</h2>
+		<div class="entry-content">
+			<p><a href="https://preyproject.com/"><img alt="logo" src="imagenes/logop.png"></a></p>
+<p>Hoy os traigo una aplicación antirobo muy util y económica llamada Prey, nos permite saber la ubicación de nuestros dispositivos en todo momento y además cuenta con varias funciones extras.</p>
+<p>En esa ocación simularemos la perdida de un dispositivo móvil y veremos como utilizar la versión gratuita de esta magnifica aplicación para saber donde se encuentra.</p>
+<p>Lo primero que debemos hacer es registrarnos en la pagina web y añadir nuestro dispositivo móvil después de haberle instalado la app de <a href="https://preyproject.com/">prey</a>.</p>
+<p><img alt="1" src="imagenes/p1.png"></p>
+<p><img alt="2" src="imagenes/p2.png"></p>
+<p>Si hacemos clic en el dispositivo que hemos añadido aparecerá el menú acciones, en la parte superior derecha con diversas opciones.</p>
+<p><img alt="3" src="imagenes/p3.png"></p>
+<p>Elegimos la opción de sonar alarma para que el móvil suene con el tono que deseemos durante 30 segundos y así asegurarnos que se encuentra en las proximidades.</p>
+<p><img alt="4" src="imagenes/p4.png"></p>
+<p>La opción de Enviar mensaje, como su propio nombre indica envía un mensaje a nuestro móvil que aparecerá en pantalla sin necesidad de estar desbloqueado.</p>
+<p><img alt="5" src="imagenes/p5.png"></p>
+<p>Tras activar el modo camuflado se esconde el icono Prey cuando la aplicación sea abierta.</p>
+<p><img alt="6" src="imagenes/p6.png"></p>
+<p>Esta opción nos permite bloquear el móvil hasta que se ingrese la contraseña correcta.</p>
+<p><img alt="7" src="imagenes/p7.png"></p>
+<p>Por ultimo, prey nos permite especificar una zona geográfica en concreto, de esta forma cuando el dispositivo móvil entre o salga de dicha zona nos enviará una advertencia. Hacemos clic en Agregar nueva zona y le aumentamos el radio de acción.</p>
+<p><img alt="8" src="imagenes/p8.png">
+<img alt="9" src="imagenes/p9.png">
+<img alt="10" src="imagenes/p10.png"></p>
+		</div> <!--/#entry-content-->
+    		<span class="tag-links"><strong>Tagged</strong>
+ <a href="../tag/extra.html" rel="tag">Extra</a>    		</span>
+	</div> <!--/#main-->
+</div>  <!--/#post--><div class="post type-post status-publish format-standard hentry category-general" id="post">
+	<div class="entry-meta">
+		<div class="date"><a href="../instalacion-y-configuracion-de-suricata.html">mié 12 septiembre 2018</a></div>
+		<span class="byline">By <a href="../author/adrian-silva.html">Adrián Silva</a></span>
+			<span class="cat-links"><a href="../category/seguridad.html" title="View all posts in Seguridad" rel="category tag">Seguridad</a></span>
+	</div> <!-- /#entry-meta -->
+	<div class="main">
+		<h2 class="entry-title">
+			<a href="../instalacion-y-configuracion-de-suricata.html" title="Permalink to Instalación y configuración de Suricata" rel="bookmark">Instalación y configuración de Suricata</a>
+		</h2>
+		<div class="entry-content">
+			<p><img alt="logo" src="imagenes/logo.png"></p>
+<p>Suricata es una herramienta gratuita y de código libre que se ha desarrollado para controlar el tráfico de red y su principal objetivo es rastrear o buscar  eventos de seguridad que puedan indicar un ataque o posible intrusión en un servidor o en algún equipo de la red.</p>
+<p>En este apartado veremos como instalar suricata desde nuestra terminal en la distribución Debian.</p>
+<p>Primero debemos realizar una pre-instalación de los paquetes necesarios para su configuración.</p>
+<h1>Pre-instalación</h1>
+<div class="highlight"><pre><span></span>    apt-get -y install libpcre3 libpcre3-dbg libpcre3-dev \
+
+    build-essential autoconf automake libtool libpcap-dev libnet1-dev \
+
+    libyaml-0-2 libyaml-dev zlib1g zlib1g-dev libmagic-dev libcap-ng-dev \
+
+    libjansson-dev pkg-config
+</pre></div>
+
+
+<p>De forma predeterminada, Suricata funciona como un IDS. Para utilizarlo como un programa IDS e IPS instalamos:</p>
+<p><em>apt-get -y install libnetfilter-queue-dev</em></p>
+<h1>Instalación</h1>
+<p>Nos movemos a la carpeta deseada en la que descargaremos el paquete de suricata, lo extraemos y nos situamos en la carpeta extraida.</p>
+<div class="highlight"><pre><span></span>    wget http://www.openinfosecfoundation.org/download/suricata-3.1.tar.gz
+
+    tar -xvzf suricata-3.1.tar.gz
+
+    cd suricata-3.1
+</pre></div>
+
+
+<p>Pasamos a compilar e instalar el paquete junto con las reglas.</p>
+<div class="highlight"><pre><span></span>    ./configure –prefix=/usr –sysconfdir=/etc –localstatedir=/var
+
+    make
+
+    make install-full
+</pre></div>
+
+
+<p>Cuando haya acabado este proceso nos aseguramos que las siguientes carpetas se encuentran en nuestro equipo, si no las creamos.</p>
+<div class="highlight"><pre><span></span>    sudo mkdir /var/log/suricata
+
+    sudo mkdir /etc/suricata
+</pre></div>
+
+
+<p>Copiamos los ficheros de configuración de la carpeta que hemos extraído en la carpeta /etc/suricata.</p>
+<div class="highlight"><pre><span></span>    sudo cp classification.config /etc/suricata
+
+    sudo cp reference.config /etc/suricata
+
+    sudo cp suricata.yaml /etc/suricata
+</pre></div>
+
+
+<h1>Configuración</h1>
+<p>A continuación editamos el fichero suricata.yaml asegurándonos de que cada variable de los vars, grupos de direcciones y grupos de puertos en el archivo yaml está configurado correctamente respecto a nuestras necesidades.</p>
+<ul>
+<li>Debemos establecer la dirección ip de la red local en HOME_NET.</li>
+<li>Se recomienda establecer EXTERNAL_NET en !$HOME_NET. De esta forma, cada dirección IP establecida en HOME_NET se tratará como externa.</li>
+<li>HTTP_SERVERS, SMTP_SERVERS, SQL_SERVERS, DNS_SERVERS y TELNET_SERVERS se establecen de forma predeterminada en HOME_NET.</li>
+<li>AIM_SERVERS se establece por defecto en ‘any’.</li>
+</ul>
+<p>Estas variables deben configurarse para los servidores de su red. Todos los ajustes tienen que ser configurados para que tenga un efecto más preciso.</p>
+<p><img alt="1" src="imagenes/1s.png"></p>
+<h1>Utilización</h1>
+<p>Ejecutamos suricata mediante la siguiente expresión:</p>
+<div class="highlight"><pre><span></span>suricata -c /etc/suricata/suricata.yaml -i eth0
+</pre></div>
+
+
+<p>Veremos algunos errores con el parseado de algunas reglas, pero una vez que se inicie el motor (engine started), estará funcionado:</p>
+<p><img alt="2" src="imagenes/2s.png"></p>
+<p>Las alertas se almacenan en /var/log/suricata y se crean los siguientes ficheros:</p>
+<ul>
+<li>fast.log</li>
+<li>http.log</li>
+<li>stat.log</li>
+<li>alertas unified2</li>
+</ul>
+<p><img alt="3" src="imagenes/3s.png"></p>
+<p>Si abrimos el fichero fast.log veremos una alerta que ha sido activada el 10/12/2017 a las 19.58 por la aplicación Dropbox.</p>
+<p><img alt="4" src="imagenes/4s.png"></p>
+<p>Por último, vamos a hacer que se envíe dicho fichero cada cierto tiempo a nuestro correo para mantener un mayor control de las alertas, para ellos necesitamos instalar:</p>
+<div class="highlight"><pre><span></span>    apt-get install postfix
+
+    apt-get install mailutils
+</pre></div>
+
+
+<p>Modificamos el apartado mydestination del fichero /etc/postfix/main.cf</p>
+<p>En este caso como vamos a enviar el correo desde un instituto, añadimos la dirección de babuino.gonzalonazareno.org. Ponga usted la que requerida en su entorno de trabajo.</p>
+<p><img alt="5" src="imagenes/5s.png"></p>
+<p>Luego con el comando cat fast.log | mail -s “asunto” correoelectronico enviamos el mensaje.</p>
+<p><img alt="6" src="imagenes/6s.png"></p>
+<p>Pero lo aconsejable es que esta función la realice cada cierto tiempo automáticamente, por ello crearemos un script, le damos un nombre y lo ejecutamos cada 3 dias.</p>
+<div class="highlight"><pre><span></span>30 19 */3 * * root /mail.sh
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>    #! \bin\bash
+
+    user=$(whoami)
+
+    if [[ $user = “root” ]]
+
+    then
+
+    cd /var/log/suricata/
+
+    echo “Hola, dime el correo al cual enviar las alertas de suricata”
+
+    read correo
+
+    if [[ $correo =~ @ ]]
+
+    then
+
+    echo “Asunto:”
+
+    read asunto
+
+    cat fast.log | mail -s “$asunto” $correo
+
+    else
+
+    echo “Ese correo no tiene buena pinta”
+
+    fi
+
+    else
+
+    echo “Tienes que ser root, cualquiera no me va a enviar mensajes”
+
+    fi
+</pre></div>
+
+
+<p><strong>Nota:</strong> Si te resulta muy complicado utilizar suricata desde la terminal puedes utilizar <a href="https://wordpress.com/read/feeds/53738596/posts/1967866159">Smooth-Sec</a>, es mucho más intutivo gracias a su interfaz gráfica.</p>
+		</div> <!--/#entry-content-->
+    		<span class="tag-links"><strong>Tagged</strong>
+ <a href="../tag/linux.html" rel="tag">Linux</a>    		</span>
+	</div> <!--/#main-->
+</div>  <!--/#post--><div class="navigation">
+</div>
+		</div>
+		
+		<div id="footer">
+			<p>Powered by <a href="http://getpelican.com">Pelican</a>, theme by <a href="http://bunnyman.info">tBunnyMan</a>.</p>
+		</div><!-- /#footer -->
+	</div><!-- /#container -->
+	<div style="display:none"></div>
+</body>
+</html>

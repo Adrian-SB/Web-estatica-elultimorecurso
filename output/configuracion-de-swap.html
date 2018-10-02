@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+		<title>El último recurso &mdash; Configuración de SWAP</title>
+		<meta charset="utf-8" />
+		<link rel="profile" href="http://gmpg.org/xfn/11" />
+		<link rel="stylesheet" type="text/css" href="./theme/css/style.css" />
+		<link rel='stylesheet' id='oswald-css'  href='http://fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all' />
+		<style type="text/css">
+			body.custom-background { background-color: #f5f5f5; }
+		</style>
+		<link rel="alternate" type="application/atom+xml"
+			title="El último recurso — Flux Atom"
+			href="./" /> 
+		<!--[if lte IE 8]><script src="./theme/js/html5shiv.js"></script><![endif]-->
+</head>
+
+<body class="home blog custom-background " >
+	<div id="container">
+		<div id="header">
+				<h1 id="site-title"><a href=".">El último recurso</a></h1>
+		</div><!-- /#banner -->
+		
+		<div id="menu">
+			<div class="menu-navigation-container">
+				<ul id="menu-navigation" class="menu">
+						<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="./category/cajon-desastre.html">Cajón desastre</a></li>
+						<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="./category/seguridad.html">Seguridad</a></li>
+						<li class="active" class="menu-item menu-item-type-post_type menu-item-object-page"><a href="./category/sistemas.html">Sistemas</a></li>
+
+				</ul>
+			</div> <!--/#menu-navigation-container-->
+		</div><!-- /#menu -->
+		
+		<div class="page-title">
+		</div>
+	
+		<div id="contents">
+
+<div class="post type-post status-publish format-standard hentry category-general" id="post">
+	<div class="entry-meta">
+		<div class="date"><a href="./configuracion-de-swap.html">sáb 22 septiembre 2018</a></div>
+		<span class="byline">By <a href="./author/adrian-silva.html">Adrián Silva</a></span>
+			<span class="cat-links"><a href="./category/sistemas.html" title="View all posts in Sistemas" rel="category tag">Sistemas</a></span>
+	</div> <!-- /#entry-meta -->
+	<div class="main">
+		<h2 class="entry-title">
+			<a href="./configuracion-de-swap.html" title="Permalink to Configuración de SWAP" rel="bookmark">Configuración de SWAP</a>
+		</h2>
+		<div class="entry-content">
+			<p><img alt="logo" src="imagenes/1w.png"></p>
+<p>En informática, el <a href="https://es.wikipedia.org/wiki/Espacio_de_intercambio">espacio de intercambio </a>es una zona del disco que se usa para guardar las imágenes de los procesos que no han de mantenerse en memoria física. A este espacio se le suele llamar swap.</p>
+<p>Posiblemente en ocasiones nos interese cambiar la configuración de la swap, por ejemplo por motivos de rendimiento en el servidor o porque le hayamos puesto un tamaño erróneo durante la instalación del sistema operativo. Por estos u otros casos les traigo como crear y configurar una partición swap desde la terminal.</p>
+<h1>Pasos a seguir</h1>
+<ol>
+<li>
+<p>Vemos cuales son los discos que se encuentran en nuestro sistema con el comando lsblk, luego creamos nuestra swap con:</p>
+<p><em><a href="https://blog.desdelinux.net/uso-del-comando-dd/">dd if=/dev/zero of=/swapfile bs=1024 count=1024k</a></em></p>
+</li>
+<li>
+<p>Utilizamos el comando <strong>mkswap /swapfile</strong>, luego activamos la swap con el comando: <strong>swapon /swapfile</strong> y comprobamos que la partición swap ha sido creada y activada con el comando <strong>swapon -s</strong>.</p>
+<p><img alt="2" src="imagenes/2w.png"></p>
+<p>Para no perder la swap tras reiniciar, debemos editar el archivo fstab agregándole la siguiente linea:</p>
+<p>/<em>swapfile none swap sw 0 0</em></p>
+<p><img alt="3" src="imagenes/3w.png"></p>
+</li>
+<li>
+<p>Definimos la propiedad swappiness con el valor 0 utilizando el comando:</p>
+<p><em>echo 0 &gt; /proc/sys/vm/swappiness</em></p>
+</li>
+<li>
+<p>Asignamos los permisos correctos al archivo de swap para que no pueda ser leído o modificado por los usuarios, con los comandos:</p>
+<p><em>chown root:root /swapfile
+chmod 0600 /swapfile</em></p>
+<p><img alt="4" src="imagenes/4w.png"></p>
+</li>
+<li>
+<p>Utilizamos el comando free para saber el uso de nuestra memoria y vemos que la swap solo esta utilizando 224 Kilobytes.</p>
+<p><img alt="5" src="imagenes/5w.png"></p>
+</li>
+<li>
+<p>Ahora vamos a utilizar el comando stress para estresar al sistema y ver como este utiliza la swap, para ello escribimos:</p>
+<p><em>stress –cpu 3 –io 3 –vm 3 –timeout 10s –verbose</em></p>
+<p><img alt="6" src="imagenes/6w.png"></p>
+</li>
+<li>
+<p>Por ultimo comprobamos como se ha disparado el uso de la swap tras cargar el sistema, como ha pasado de 224 Kilobytes a 282080 Kilobytes.</p>
+<p><img alt="7" src="imagenes/7w.png"></p>
+</li>
+</ol>
+		</div> <!--/#entry-content-->
+    		<span class="tag-links"><strong>Tagged</strong>
+ <a href="./tag/linux.html" rel="tag">Linux</a>    		</span>
+	</div> <!--/#main-->
+</div>  <!--/#post-->
+
+		</div>
+		
+		<div id="footer">
+			<p>Powered by <a href="http://getpelican.com">Pelican</a>, theme by <a href="http://bunnyman.info">tBunnyMan</a>.</p>
+		</div><!-- /#footer -->
+	</div><!-- /#container -->
+	<div style="display:none"></div>
+</body>
+</html>
